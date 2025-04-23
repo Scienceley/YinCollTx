@@ -1,0 +1,42 @@
+# Macro file for example B1
+# 
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
+#
+# Change the default number of workers (in multi-threading mode) 
+#/run/numberOfThreads 4
+#
+# Initialize kernel
+/run/initialize
+#
+/control/verbose 0  	#default 2
+/run/verbose 0		#default 2 
+/event/verbose 0	#default 0
+/tracking/verbose 0	#default 1
+# 
+# gamma 6 MeV to the direction (0.,0.,1.)
+#
+#/gun/particle gamma
+#/gun/energy 6 MeV
+#
+#/run/beamOn 5
+# 
+# define scoring mesh 
+/score/create/boxMesh boxMesh_1 
+/score/mesh/boxSize 8. 8. 8. cm 
+/score/mesh/nBin 100 100 500
+/score/mesh/translate/xyz 0. 0. 50. cm
+/score/quantity/doseDeposit DoseScore gray
+/score/close
+/score/drawProjection boxMesh_1 DoseScore 
+
+
+# proton 210 MeV to the direction (0.,0.,1.)
+#
+#/gun/particle proton
+#/gun/energy 210 MeV
+#/tracking/verbose 2
+#
+/run/beamOn 100000000
+#
+/score/dumpQuantityToFile boxMesh_1 DoseScore DoseScoreOutput.txt
